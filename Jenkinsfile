@@ -15,7 +15,7 @@ pipeline {
                 sh 'go version'
                 sh 'go get -u golang.org/x/lint/golint'
                 sh 'go get -u github.com/golang/dep/cmd/dep'
-                sh '${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}/dep init'
+                sh './dep init'
             }
         }
         
