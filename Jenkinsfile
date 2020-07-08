@@ -14,14 +14,15 @@ pipeline {
                 echo 'Installing dependencies'
                 sh 'go version'
                 sh 'go get -u golang.org/x/lint/golint'
-                sh 'ls -al'
+                sh 'go get -u github.com/golang/dep/cmd/dep'
+                sh 'dep init'
             }
         }
         
         stage('Build') {
             steps {
                 echo 'Compiling and building'
-                sh 'go build'
+                sh 'go build .'
             }
         }
 
