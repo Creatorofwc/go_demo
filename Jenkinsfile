@@ -3,7 +3,7 @@ pipeline {
     tools {
            go 'go1.14'
           }
-        
+     stages {         
         stage('Build') {
             steps {
                 echo 'Compiling and building'
