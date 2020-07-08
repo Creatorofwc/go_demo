@@ -36,6 +36,10 @@ pipeline {
                    }
             }
         }
-        
+    }
+     post {
+        always {
+            archiveArtifacts artifacts: 'build/*', fingerprint: true 
+        }
     }
 }
