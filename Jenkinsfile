@@ -16,11 +16,11 @@ pipeline {
                     sh 'go test -v ./...'
                    }
                 }
-            }
+            
     
      post {
         always {
             archiveArtifacts artifacts: '*', fingerprint: true 
         }
     }
-
+}
