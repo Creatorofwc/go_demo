@@ -12,6 +12,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Compiling and building'
+                sh 'go get -u golang.org/x/lint/golint'
                 sh 'go get -t -d  -v ./... && go build -v ./...'
                  }
                }
@@ -20,9 +21,9 @@ pipeline {
             steps {
                 withEnv(["PATH+GO=${GOPATH}/bin"]){
                     echo 'Running vetting'
-                    sh 'go vet .'
+                    sh 'go vet ./...'
                     echo 'Running linting'
-                    sh 'golint .'
+                    sh 'golint ./...'
                   }
                 } 
         } 
