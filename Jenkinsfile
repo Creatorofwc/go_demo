@@ -15,6 +15,7 @@ pipeline {
                     echo 'Running linting'
                     sh 'go test -v ./...'
                    }
+                }
             }
     
      post {
