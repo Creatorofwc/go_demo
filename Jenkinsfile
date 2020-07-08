@@ -23,4 +23,4 @@ pipeline {
             archiveArtifacts artifacts: '*', fingerprint: true 
         }
     }
-}
+
