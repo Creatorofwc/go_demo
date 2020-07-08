@@ -13,8 +13,10 @@ pipeline {
 
         stage('Test') {
             steps {     
+                    echo 'Running vetting'
+                    sh 'go vet .'
                     echo 'Running linting'
-                    sh 'go test -v ./...'
+                    sh 'golint .'
                   }
                 } 
 } 
