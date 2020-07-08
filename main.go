@@ -1,36 +1,46 @@
+// main.go
+
 package main
 
 import (
-	"bytes"
-	"fmt"
-	"net/http"
-	"runtime"
+	"encoding/json"
+	"html/template"
 	"time"
+
+	"io/ioutil"
+	"log"
+	"net/http"
 )
 
-var myClient = &http.Client{Timeout: 10 * time.Second}
+var t *template.Template
+var c config
 
-func main() {
-	url := "http://hello-world-demo.ir-e1.cloudhub.io/api/helloworld"
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "<p>Welcome to Demo Application!</p>")
-		fmt.Fprintf(w, "<p>Server time:"+time.Now().Format("20060102150405")+"</p>")
-		fmt.Fprintf(w, "<p>Server OS:"+runtime.GOOS+"<p>")
-		fmt.Fprintf(w, "<p>Mulesoft Response:"+getMulesoft(url)+"</p>")
-	})
-	http.ListenAndServe(":80", nil)
+type data struct {
+	Weekday  time.Weekday
+	Greeting string
 }
 
-func getMulesoft(url string) string {
-	r, err := myClient.Get(url)
-	if err != nil {
-		fmt.Printf(err.Error())
-	}
-	defer r.Body.Close()
+type config struct {
+	Greeting string
+}
 
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(r.Body)
+func main() {
+	loadConfig()
+	initializeTemplates()
+	http.HandleFunc("/", handler)
+	log.Fatal(http.ListenAndServe(":80", nil))
+}
 
-	return buf.String()
+func loadConfig() {
+	contentBytes, _ := ioutil.ReadFile("config.json")
+	json.Unmarshal(contentBytes, &c)
+}
+
+func initializeTemplates() {
+	t, _ = template.ParseFiles("index.html")
+}
+func handler(w http.ResponseWriter, r *http.Request) {
+	data := &data{time.Now().Weekday(), c.Greeting}
+
+	t.Execute(w, data)
 }
