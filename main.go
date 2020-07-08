@@ -14,6 +14,7 @@ import (
 
 var t *template.Template
 var c config
+var myClient = &http.Client{Timeout: 10 * time.Second}
 
 type data struct {
 	Weekday  time.Weekday
@@ -43,4 +44,16 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	data := &data{time.Now().Weekday(), c.Greeting}
 
 	t.Execute(w, data)
+}
+func getMulesoft(url string) string {
+	r, err := myClient.Get(url)
+	if err != nil {
+		fmt.Printf(err.Error())
+	}
+	defer r.Body.Close()
+
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(r.Body)
+
+	return buf.String()
 }
