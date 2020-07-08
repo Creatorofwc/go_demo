@@ -3,6 +3,11 @@ pipeline {
     tools {
            go 'go1.14'
           }
+    environment {
+        GO114MODULE = 'on'
+        CGO_ENABLED = 0 
+        GOPATH = "${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"
+    }
      stages {         
         stage('Build') {
             steps {
@@ -12,12 +17,14 @@ pipeline {
                }
 
         stage('Test') {
-            steps {     
+            steps {
+                withEnv(["PATH+GO=${GOPATH}/bin"]){
                     echo 'Running vetting'
                     sh 'go vet .'
                     echo 'Running linting'
                     sh 'golint .'
                   }
                 } 
-} 
+        } 
+}
 }
