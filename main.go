@@ -15,7 +15,7 @@ func main() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "<p>Welcome to Demo Application!</p>")
-		fmt.Fprintf(w, "<p>Server time:"+time.Now().Format("20060102150405")+"</p>")
+		fmt.Fprintf(w, "<p>Server time:"+time.Now().Format("2006-01-02 15:04:05")+"</p>")
 		fmt.Fprintf(w, "<p>Server OS:"+runtime.GOOS+"<p>")
 		fmt.Fprintf(w, "<p>Mulesoft Response:"+getMulesoft(url)+"</p>")
 	})
