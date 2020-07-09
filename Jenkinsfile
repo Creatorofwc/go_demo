@@ -13,7 +13,7 @@ pipeline {
             steps {
                 echo 'Compiling and building'
                 sh 'go get -u golang.org/x/lint/golint'
-                sh 'go get -t -d  -v ./... && go build -v ./...'
+                sh 'go get -t -d -v && go build -v -o App'
                  }
                }
 
@@ -21,9 +21,9 @@ pipeline {
             steps {
                 withEnv(["PATH+GO=${GOPATH}/bin"]){
                     echo 'Running vetting'
-                    sh 'go vet ./...'
+                    sh 'go vet'
                     echo 'Running linting'
-                    sh 'golint ./...'
+                    sh 'golint'
                   }
                 } 
         } 
