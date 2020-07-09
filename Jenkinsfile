@@ -44,7 +44,8 @@ pipeline {
                         transfers: [
                             sshTransfer(execCommand: "/bin/rm -rf /app/*"),
                             sshTransfer(sourceFiles: "App index.html config.json",),
-		            sshTransfer(execCommand: "chmod 755 /app/App")	
+		            sshTransfer(execCommand: "chmod 755 /app/App"),
+			    sshTransfer(execCommand: "sudo systemctl restart hello-world")
                         ]
                     )
                 ]
