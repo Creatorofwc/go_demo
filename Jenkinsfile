@@ -42,8 +42,8 @@ pipeline {
                         configName: "hello_world",
                         verbose: true,
                         transfers: [
-                            sshTransfer(execCommand: "/bin/rm -rf /app"),
-                            sshTransfer(sourceFiles: "**",)
+                            sshTransfer(execCommand: "/bin/rm -rf /app/*"),
+                            sshTransfer(sourceFiles: "*",)
                         ]
                     )
                 ]
