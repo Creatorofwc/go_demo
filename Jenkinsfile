@@ -26,11 +26,11 @@ pipeline {
                     sh 'golint'
                   }
                 } 
-        }
+        
         post {
         always {
             archiveArtifacts artifacts: '*', fingerprint: true
                }
     } 
 }
-
+}
