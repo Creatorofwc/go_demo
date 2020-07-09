@@ -42,6 +42,8 @@ func initializeTemplates() {
 	t, _ = template.ParseFiles("index.html")
 }
 func handler(w http.ResponseWriter, r *http.Request) {
+
+//        url := "http://hello-world-demo.ir-e1.cloudhub.io/api/helloworld"
 	data := &data{time.Now().Weekday(), c.Greeting}
 
 	t.Execute(w, data)
