@@ -13,7 +13,7 @@ pipeline {
             steps {
                 echo 'Compiling and building'
                 sh 'go get -u golang.org/x/lint/golint'
-                sh 'go get -t -d  -v ./... && go build -v ./...'
+                sh 'go get -t -d -v && go build -v -o App'
                  }
                }
 
@@ -21,11 +21,14 @@ pipeline {
             steps {
                 withEnv(["PATH+GO=${GOPATH}/bin"]){
                     echo 'Running vetting'
-                    sh 'go vet ./...'
+                    sh 'go vet'
                     echo 'Running linting'
-                    sh 'golint ./...'
+                    sh 'golint'
                   }
                 } 
-        } 
-}
+	}	
+      //  stage('Deploy') {
+      //       steps([$class: 'AWSCodeDeployPublisher', applicationName: '', awsAccessKey: '', awsSecretKey: '', credentials: 'awsAccessKey', deploymentGroupAppspec: false, deploymentGroupName: '', deploymentMethod: 'deploy', excludes: '', iamRoleArn: '', includes: '**', proxyHost: '', proxyPort: 0, region: 'ap-northeast-1', s3bucket: '', s3prefix: '', subdirectory: '', versionFileName: '', waitForCompletion: false])
+       //      }
+       }
 }
