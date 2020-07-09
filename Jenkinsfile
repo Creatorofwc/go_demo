@@ -43,7 +43,8 @@ pipeline {
                         verbose: true,
                         transfers: [
                             sshTransfer(execCommand: "/bin/rm -rf /app/*"),
-                            sshTransfer(sourceFiles: "**",)
+                            sshTransfer(sourceFiles: "App index.html config.json",),
+		            sshTransfer(execCommand: "chmod 755 /app/App")	
                         ]
                     )
                 ]
