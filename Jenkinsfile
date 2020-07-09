@@ -43,7 +43,7 @@ pipeline {
                         verbose: true,
                         transfers: [
                             sshTransfer(execCommand: "/bin/rm -rf /app/*"),
-                            sshTransfer(sourceFiles: "*",)
+                            sshTransfer(sourceFiles: "**",)
                         ]
                     )
                 ]
