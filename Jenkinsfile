@@ -29,7 +29,7 @@ pipeline {
 	}
 	     stage('Archive') {
 		     steps {
-		        archiveArtifacts artifacts: 'App config.json index.html scripts', fingerprint: true, followSymlinks: false
+		        archiveArtifacts artifacts: 'App, config.json, index.html, scripts', fingerprint: true, followSymlinks: false
 		     }
 	     }   
       //  stage('Deploy') {
