@@ -9,19 +9,29 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-variables:
-  GOBIN:  '$(GOPATH)/bin' # Go binaries path
-  GOROOT: '/usr/local/go1.14' # Go installation path
-  GOPATH: '$(system.defaultWorkingDirectory)/gopath' # Go workspace path
-  modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
+# variables:
+#   GOBIN:  '$(GOPATH)/bin' # Go binaries path
+#   GOROOT: '/usr/local/go1.14' # Go installation path
+#   GOPATH: '$(system.defaultWorkingDirectory)/gopath' # Go workspace path
+#   modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
 
 
 steps:
 - task: GoTool@0
   inputs:
     version: '1.14'
-    goPath: '/usr/local/go1.14'
-    goBin: '$(GOPATH)/bin'
+- task: Go@0
+  inputs:
+    command: 'get'
+    arguments: '-u golang.org/x/lint/golint'
+- task: Go@0
+  inputs:
+    command: 'get'
+    arguments: '-t -d -v'
+- task: Go@0
+  inputs:
+    command: 'build'
+    arguments: '-v -o App'
 - task: Bash@3
   inputs:
     targetType: 'inline'
