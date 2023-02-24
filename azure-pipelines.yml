@@ -20,6 +20,8 @@ steps:
 - task: GoTool@0
   inputs:
     version: '1.14'
+    goPath: '/usr/local/go1.14'
+    goBin: '$(GOPATH)/bin'
 - task: Bash@3
   inputs:
     targetType: 'inline'
