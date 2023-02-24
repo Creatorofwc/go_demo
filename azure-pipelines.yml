@@ -16,9 +16,12 @@ variables:
   modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
 
 stages:         
-    - stage: Build
-        steps {
-            echo 'Compiling and building'
-            sh 'go get -u golang.org/x/lint/golint'
-            sh 'go get -t -d -v && go build -v -o App'
-              }
+  - stage: Build
+    steps:
+        - task: Bash@3
+          inputs:
+          targetType: 'inline'
+          script: |
+              echo 'Compiling and building'
+              sh 'go get -u golang.org/x/lint/golint'
+              sh 'go get -t -d -v && go build -v -o App'
