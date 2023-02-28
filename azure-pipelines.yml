@@ -11,6 +11,7 @@ pool:
 
 variables:
   imageName: 'go_demo'
+
 #   GOBIN:  '$(GOPATH)/bin' # Go binaries path
 #   GOROOT: '/usr/local/go1.14' # Go installation path
 #   GOPATH: '$(system.defaultWorkingDirectory)/gopath' # Go workspace path
@@ -53,6 +54,7 @@ steps:
 
 - task: Docker@2
   inputs:
+    containerRegistry: 'braindevopstraining'
     repository: '$(imageName)'
-    command: 'build'
+    command: 'buildAndPush'
     Dockerfile: 'Dockerfile'
