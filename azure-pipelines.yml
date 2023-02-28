@@ -58,3 +58,6 @@ steps:
     repository: '$(imageName)'
     command: 'buildAndPush'
     Dockerfile: 'Dockerfile'
+    tags: |
+      $(Build.BuildId)
+      latest
