@@ -2,12 +2,25 @@ package main
 
 import (
   "fmt"
-  "log"
+  "encoding/json"
   "net/http"
-  "runtime"
   "time"
+  "runtime"
 )
 
+func healthCheck(w http.ResponseWriter, r *http.Request) {
+    status := map[string]string{"status": "ok"}
+    jsonResponse, err := json.Marshal(status)
+
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+    w.Write(jsonResponse)
+}
 func appHandler(w http.ResponseWriter, r *http.Request) {
 
   fmt.Println(time.Now(), "Hello from my new fresh server")
@@ -15,17 +28,16 @@ func appHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-//  http.HandleFunc("/", appHandler)
-  http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    mux := http.NewServeMux()
+    mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "<p>Welcome to Demo Application Changed Again!</p>")
 		fmt.Fprintf(w, "<p>Server time:"+time.Now().Format("2006-01-02 15:04:05")+"</p>")
 		fmt.Fprintf(w, "<p>Server OS:"+runtime.GOOS+"<p>")
-	})
+	}) 
+    mux.HandleFunc("/healthcheck", healthCheck)
 
-  log.Println("Started, serving on port 80")
-  err := http.ListenAndServe(":80", nil)
-
-  if err != nil {
-    log.Fatal(err.Error())
-  }
+    err := http.ListenAndServe(":80", mux)
+    if err != nil {
+        panic(err)
+    }
 }
