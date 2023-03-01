@@ -1,36 +1,31 @@
 package main
 
 import (
-	"bytes"
-	"fmt"
-	"net/http"
-	"runtime"
-	"time"
+  "fmt"
+  "log"
+  "net/http"
+  "runtime"
+  "time"
 )
 
-var myClient = &http.Client{Timeout: 10 * time.Second}
+func appHandler(w http.ResponseWriter, r *http.Request) {
+
+  fmt.Println(time.Now(), "Hello from my new fresh server")
+
+}
 
 func main() {
-	url := "http://hello-world-demo.ir-e1.cloudhub.io/api/helloworld"
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+//  http.HandleFunc("/", appHandler)
+  http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "<p>Welcome to Demo Application Changed Again!</p>")
 		fmt.Fprintf(w, "<p>Server time:"+time.Now().Format("2006-01-02 15:04:05")+"</p>")
 		fmt.Fprintf(w, "<p>Server OS:"+runtime.GOOS+"<p>")
-		fmt.Fprintf(w, "<p>Mulesoft Response:"+getMulesoft(url)+"</p>")
 	})
-	http.ListenAndServe(":80", nil)
-}
 
-func getMulesoft(url string) string {
-	r, err := myClient.Get(url)
-	if err != nil {
-		fmt.Printf(err.Error())
-	}
-	defer r.Body.Close()
+  log.Println("Started, serving on port 80")
+  err := http.ListenAndServe(":80", nil)
 
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(r.Body)
-
-	return buf.String()
+  if err != nil {
+    log.Fatal(err.Error())
+  }
 }
