@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go_demo-deployment
+  labels:
+    app: go_demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: go_demo
+  template:
+    metadata:
+      labels:
+        app: go_demo
+    spec:
+      containers:
+      - name: go_demo
+        image: braindevopstraining.azurecr.io/go_demo
+        ports:
+        - containerPort: 80
