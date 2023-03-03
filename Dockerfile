@@ -10,6 +10,4 @@ RUN mkdir /app && \
     apk --no-cache add ca-certificates
 WORKDIR /app
 COPY --from=0 /app/App ./
-COPY --from=0 /app/index.html ./
-COPY --from=0 /app/config.json ./
-CMD ["./App"]
+CMD ["/app/App"]
