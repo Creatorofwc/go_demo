@@ -5,9 +5,9 @@ COPY . /app
 WORKDIR /app
 RUN go get -t -d -v && go build -v -o App
 
-FROM alpine:latest
-RUN mkdir /app && \
-    apk --no-cache add ca-certificates
+FROM ubuntu:latest
+RUN mkdir /app
 WORKDIR /app
 COPY --from=0 /app/App ./
+COPY --from=0 /app/App /
 CMD ["/app/App"]
